@@ -39,6 +39,18 @@ export default function DynamicForm() {
           }
         })
       );
+    } else if (
+      name == "jobTitle" ||
+      name == "company" ||
+      name == "startDate" ||
+      name == "endDate" ||
+      name == "description"
+    ) {
+      setExperienceList((experienceList) =>
+        experienceList.map((item) => {
+          return item.id === id ? { ...item, [name]: value } : item;
+        })
+      );
     } else setData((data) => ({ ...data, [name]: value }));
   };
 
@@ -54,6 +66,7 @@ export default function DynamicForm() {
   const handleAddExperience = () => {
     let id = experienceId + 1;
     setExperienceId((experienceId) => experienceId + 1);
+
     setExperienceList((experienceList) => [
       ...experienceList,
       {
@@ -66,6 +79,7 @@ export default function DynamicForm() {
       },
     ]);
   };
+  const handleSubmit = () => {};
 
   return (
     <div>
@@ -131,13 +145,13 @@ export default function DynamicForm() {
           Add Experience:
           {experienceList.map((item) => {
             return (
-              <>
+              <div>
                 <label>
                   Job Title:
                   <input
                     type="text"
                     value={item.jobTitle}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, item.id)}
                     name="jobTitle"
                   />
                 </label>
@@ -146,7 +160,7 @@ export default function DynamicForm() {
                   <input
                     type="text"
                     value={item.company}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, item.id)}
                     name="company"
                   />
                 </label>
@@ -155,7 +169,7 @@ export default function DynamicForm() {
                   <input
                     type="date"
                     value={item.startDate}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, item.id)}
                     name="startDate"
                   />
                 </label>
@@ -164,7 +178,7 @@ export default function DynamicForm() {
                   <input
                     type="date"
                     value={item.endDate}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, item.id)}
                     name="endDate"
                   />
                 </label>
@@ -173,17 +187,19 @@ export default function DynamicForm() {
                   <input
                     type="textArea"
                     value={item.description}
-                    onChange={handleChange}
+                    onChange={(e) => handleChange(e, item.id)}
                     name="description"
                   />
                 </label>
-              </>
+              </div>
             );
           })}
         </label>
         <button onClick={handleAddExperience}>+</button>
       </div>
-      <button style={{ border: "2px solid gray" }}>Submit</button>
+      <button style={{ border: "2px solid gray" }} onClick={handleSubmit}>
+        Submit
+      </button>
     </div>
   );
 }
